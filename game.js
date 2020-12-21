@@ -3,6 +3,8 @@ const choices = Array.from(document.getElementsByClassName("choice-text"));
 const progressText = document.getElementById('progressText');
 const scoreText = document.getElementById('score');
 const progressBarFull = document.getElementById('progressBarFull');
+const loader = document.getElementById('loader');
+const game = document.getElementById('game');
 
 let currentQuestion = {};
 let acceptingAnswers = true;
@@ -10,33 +12,36 @@ let score = 0;
 let questionCounter = 0;
 let availableQuestions = [];
 
-let questions = [
-    {
-        question: 'In which musical would you find Fantine, Eponine and Grantaire?',
-        choice1: 'Les Miserables',
-        choice2: 'Wicked',
-        choice3: 'Phantom of the Opera',
-        choice4: 'The Lion King',
-        answer: 1,
-    },
-    {
-        question:
-            "In what year did Wicked open on Broadway?",
-        choice1: "2008",
-        choice2: "1999",
-        choice3: "2003",
-        choice4: "2001",
-        answer: 3,
-    },
-    {
-        question: " Which musical is based on Monty Python and the Holy Grail?",
-        choice1: "Cats",
-        choice2: "Hamilton",
-        choice3: "Into the Woods",
-        choice4: "Spamalot",
-        answer: 4,
-    },
-];
+let questions = [];
+
+fetch("https://opentdb.com/api.php?amount=10&category=13&type=multiple")
+.then(res => {
+    return res.json();
+})
+.then(loadedQuestions => {
+    console.log(loadedQuestions.results);
+    questions = loadedQuestions.results.map(loadedQuestion => {
+        const formattedQuestion = {
+            question: loadedQuestion.question
+        };
+        
+        const answerChoices = [...loadedQuestion.incorrect_answers];
+        formattedQuestion.answer = Math.floor(Math.random() * 3) + 1;
+        answerChoices.splice(formattedQuestion.answer -1, 0,
+            loadedQuestion.correct_answer);
+
+            answerChoices.forEach((choice, index) => {
+                formattedQuestion["choice" + (index +1 )] = choice;
+            });
+            return formattedQuestion;
+
+    });
+
+    startGame();
+})
+.catch(err => {
+    console.error(err);
+});
 
 /*constants*/
 
@@ -47,8 +52,9 @@ startGame = () => {
     questionCounter = 0;
     score = 0;
     availableQuestions = [...questions];
-    
     getNewQuestion();
+    game.classList.remove("hidden");
+    loader.classList.add("hidden");
 };
 
 getNewQuestion = () => {
@@ -107,4 +113,3 @@ incrementScore = num =>{
     scoreText.innerText = score;
 };
 
-startGame();

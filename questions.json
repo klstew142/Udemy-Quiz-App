@@ -1,0 +1,27 @@
+[
+    {
+        "question": "In which musical would you find Fantine, Eponine and Grantaire?",
+        "choice1": "Les Miserables",
+        "choice2": "Wicked",
+        "choice3": "Phantom of the Opera",
+        "choice4": "The Lion King",
+        "answer": 1
+    },
+    {
+        "question":
+            "In what year did Wicked open on Broadway?",
+        "choice1": "2008",
+        "choice2": "1999",
+        "choice3": "2003",
+        "choice4": "2001",
+        "answer": 3
+    },
+    {
+        "question": " Which musical is based on Monty Python and the Holy Grail?",
+        "choice1": "Cats",
+        "choice2": "Hamilton",
+        "choice3": "Into the Woods",
+        "choice4": "Spamalot",
+        "answer": 4
+    }
+]
