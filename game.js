@@ -13,7 +13,7 @@ let questionCounter = 0;
 let availableQuestions = [];
 
 let questions = [];
-
+//API for questions
 fetch("https://opentdb.com/api.php?amount=10&category=13&type=multiple")
 .then(res => {
     return res.json();
@@ -45,9 +45,10 @@ fetch("https://opentdb.com/api.php?amount=10&category=13&type=multiple")
 
 /*constants*/
 
-const CORRECT_BONUS = 10;
-const MAX_QUESTIONS = 3;
-
+const CORRECT_BONUS = 10;//number of points per correct answer
+//max number of questions in the game - this also updates progress bar
+const MAX_QUESTIONS = 10; 
+//Start game - pulls first question
 startGame = () => {
     questionCounter = 0;
     score = 0;
@@ -58,7 +59,7 @@ startGame = () => {
 };
 
 getNewQuestion = () => {
-
+//pulls next question if there have been less than MAX_QUESTIONS variable (line 49)
     if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS){
         localStorage.setItem('mostRecentScore', score);
         //go to end page
@@ -94,7 +95,7 @@ choices.forEach(choice =>{
 
         const classToApply = 
         selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
-    
+    //if the answer is correct applies points
         if(classToApply == 'correct'){
             incrementScore(CORRECT_BONUS);
         }
@@ -107,7 +108,7 @@ choices.forEach(choice =>{
         }, 1000);
     });
 });
-
+//increases score if 
 incrementScore = num =>{
     score += num;
     scoreText.innerText = score;
